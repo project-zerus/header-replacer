@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat
 
 object HeaderExtractor extends App {
 
-  case class Config(inputDir: String = "", outputDir: String = "")
+  case class Config(inputDir: String = "", outputDir: String = "", flatten: Boolean = false)
 
   val parser = new scopt.immutable.OptionParser[Config]("header-extractor", "0.1-SNAPSHOT") {
     def options = Seq(
@@ -16,6 +16,9 @@ object HeaderExtractor extends App {
       },
       arg("output", "Output directory of headers.") {
         (v: String, c: Config) => c.copy(outputDir = v)
+      },
+      booleanOpt("f", "flatten", "Flatten the output directory") {
+        (v: Boolean, c: Config) => c.copy(flatten = v)
       }
     )
   }
@@ -34,17 +37,18 @@ object HeaderExtractor extends App {
       } else if (null == rootDir) {
         println("Can't find BLADE_ROOT.")
       } else {
-        translate(inputDir, outputDir, rootDir)
+        translate(inputDir, outputDir, rootDir, config.flatten)
       }
     }
   }
 
-  def translate(inputDir: File, outputDir: File, rootDir: File) {
-    if (outputDir.mkdirs()) {
+  def translate(inputDir: File, outputDir: File, rootDir: File, flatten: Boolean) {
+    if (outputDir.exists || outputDir.mkdirs()) {
       inputDir.listFiles.foreach(f => {
         val outFile = new File(outputDir, f.getName)
         if (f.isDirectory) {
-          translate(f, outFile, rootDir)
+          if (flatten) translate(f, outputDir, rootDir, flatten)
+          else translate(f, outFile, rootDir, flatten)
         } else if (isHeader(f.getName)) {
           if (outFile.createNewFile()) {
             val include = f.getAbsolutePath.replace(rootDir.getAbsolutePath, "").substring(1)
