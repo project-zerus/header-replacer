@@ -21,5 +21,17 @@ if [ $BLADE_ROOT ]; then
     export PATH=$BLADE_ROOT/tools/devtools/gyp:$PATH
     export PATH=$BLADE_ROOT/tools/devtools/header-extractor/bin:$PATH
     export PATH=$BLADE_ROOT/tools/devtools/wrk:$PATH
+    export PATH=$BLADE_ROOT/tools/devtools/ninja:$PATH
     source $BLADE_ROOT/tools/typhoon-blade/bladefunctions
 fi;
+
+maketools ()
+{
+    dir=`pwd`
+    echo $dir
+    cd $BLADE_ROOT/tools/devtools/wrk
+    make
+    cd $BLADE_ROOT/tools/devtools/ninja
+    ./bootstrap.py
+    cd $dir
+}
