@@ -1,6 +1,6 @@
 #!/bin/usr/env bash
 
-_find_blade_root ()
+find_blade_root ()
 {
     local dir
     dir=$PWD;
@@ -14,15 +14,22 @@ _find_blade_root ()
     return 1
 }
 
-export BLADE_ROOT=`_find_blade_root`
+BLADE_ROOT=`find_blade_root`
 
 if [ $BLADE_ROOT ]; then
+    echo "Set environment variable BLADE_ROOT $BLADE_ROOT"
+    export BLADE_ROOT
     export PATH=$BLADE_ROOT/tools/typhoon-blade:$PATH
     export PATH=$BLADE_ROOT/tools/devtools/gyp:$PATH
     export PATH=$BLADE_ROOT/tools/devtools/header-extractor/bin:$PATH
     export PATH=$BLADE_ROOT/tools/devtools/wrk:$PATH
     export PATH=$BLADE_ROOT/tools/devtools/ninja:$PATH
     source $BLADE_ROOT/tools/typhoon-blade/bladefunctions
+else
+    echo "Can't find the file 'BLADE_ROOT' in this or any upper directory."
+    echo "Blade need this file as a placeholder to locate the root source directory "
+    echo "(aka the directory where you #include start from)."
+    echo "You should create it manually at the first time."
 fi;
 
 maketools ()
