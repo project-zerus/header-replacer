@@ -17,7 +17,6 @@ find_blade_root ()
 BLADE_ROOT=`find_blade_root`
 
 if [ $BLADE_ROOT ]; then
-    echo "Set environment variable BLADE_ROOT $BLADE_ROOT"
     export BLADE_ROOT
     export PATH=$BLADE_ROOT/tools/typhoon-blade:$PATH
     export PATH=$BLADE_ROOT/tools/devtools/gyp:$PATH
