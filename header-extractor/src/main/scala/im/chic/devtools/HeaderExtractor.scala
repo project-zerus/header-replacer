@@ -23,9 +23,9 @@ object HeaderExtractor extends App {
 
   parser.parse(args, Config()) map {
     config => {
-      val inputDir = config.inputDir
-      val outputDir = config.outputDir
-      val rootDir = findBladeRoot(inputDir);
+      val inputDir = config.inputDir.getAbsoluteFile
+      val outputDir = config.outputDir.getAbsoluteFile
+      val rootDir = findBladeRoot(inputDir).getAbsoluteFile
       if (!inputDir.exists) {
         println("Input " + inputDir + " does not exist.")
       } else if (!inputDir.isDirectory) {
@@ -67,7 +67,8 @@ object HeaderExtractor extends App {
 
   def isHeader(fileName: String) = {
     (null != fileName) && {
-      fileName.endsWith(".h") || fileName.endsWith(".hh") || fileName.endsWith(".hpp")
+      fileName.endsWith(".h") || fileName.endsWith(".hh") ||
+        fileName.endsWith(".hpp") || fileName.endsWith(".ipp")
     }
   }
 
