@@ -68,7 +68,8 @@ object HeaderExtractor extends App {
   def isHeader(fileName: String) = {
     (null != fileName) && {
       fileName.endsWith(".h") || fileName.endsWith(".hh") ||
-        fileName.endsWith(".hpp") || fileName.endsWith(".ipp")
+        fileName.endsWith(".hpp") || fileName.endsWith(".ipp") ||
+        fileName.endsWith(".tcc")
     }
   }
 
