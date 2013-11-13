@@ -4,5 +4,5 @@
 
 * header-extractor
 * gyp (node v0.10.21)
-* wrk (3.0.1)
+* wrk (3.0.3)
 * ninja (1.4.0)
