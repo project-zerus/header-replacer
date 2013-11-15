@@ -20,6 +20,7 @@ if [ $BLADE_ROOT ]; then
     export BLADE_ROOT
     export PATH=$BLADE_ROOT/tools/devtools/gyp:$PATH
     export PATH=$BLADE_ROOT/tools/devtools/header-extractor/bin:$PATH
+    export PATH=$BLADE_ROOT/tools/devtools/gen-random-file/bin:$PATH
     export PATH=$BLADE_ROOT/tools/devtools/wrk:$PATH
     export PATH=$BLADE_ROOT/tools/devtools/ninja:$PATH
 else
