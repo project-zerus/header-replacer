@@ -2,9 +2,7 @@ package im.chic.devtools
 
 import java.io.{OutputStreamWriter, FileOutputStream, File}
 import com.google.common.base.Charsets
-import scala.io.{Codec, Source}
-import collection.immutable.Seq
-import collection.immutable.List
+import scala.io.Source
 
 object HeaderReplacer extends App {
 
@@ -42,12 +40,15 @@ object HeaderReplacer extends App {
 
   def processFile(file: File, header: String, replacer: String) {
     if (isCppSource(file.getName)) {
-      println("processing file: " + file.getAbsolutePath)
-      val lines = Source.fromFile(file, Charsets.UTF_8.toString).getLines.toList
-      val writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8)
-      lines.map(processLine(_, header, replacer)).foreach(line => writer.write(line + "\n"))
-      writer.flush
-      writer.close
+      try {
+        val lines = Source.fromFile(file, Charsets.UTF_8.toString).getLines.toList
+        val writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8)
+        lines.map(processLine(_, header, replacer)).foreach(line => writer.write(line + "\n"))
+        writer.flush
+        writer.close
+      } catch {
+        case t: Throwable => println("bad file: " + file.getAbsolutePath)
+      }
     }
   }
 
