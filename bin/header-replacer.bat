@@ -1,24 +1,24 @@
-@REM header-extractor launcher script
+@REM header-replacer launcher script
 @REM
 @REM Envioronment:
 @REM JAVA_HOME - location of a JDK home dir (optional if java on path)
 @REM CFG_OPTS  - JVM options (optional)
 @REM Configuration:
-@REM HEADER_EXTRACTOR_config.txt found in the HEADER_EXTRACTOR_HOME.
+@REM HEADER_REPLACER_config.txt found in the HEADER_REPLACER_HOME.
 @setlocal enabledelayedexpansion
 
 @echo off
-if "%HEADER_EXTRACTOR_HOME%"=="" set "HEADER_EXTRACTOR_HOME=%~dp0\\.."
+if "%HEADER_REPLACER_HOME%"=="" set "HEADER_REPLACER_HOME=%~dp0\\.."
 set ERROR_CODE=0
 
-set "APP_LIB_DIR=%HEADER_EXTRACTOR_HOME%\lib\"
+set "APP_LIB_DIR=%HEADER_REPLACER_HOME%\lib\"
 
 rem Detect if we were double clicked, although theoretically A user could
 rem manually run cmd /c
 for %%x in (%cmdcmdline%) do if %%~x==/c set DOUBLECLICKED=1
 
 rem FIRST we load the config file of extra options.
-set "CFG_FILE=%HEADER_EXTRACTOR_HOME%\HEADER_EXTRACTOR_config.txt"
+set "CFG_FILE=%HEADER_REPLACER_HOME%\HEADER_REPLACER_config.txt"
 set CFG_OPTS=
 if exist %CFG_FILE% (
   FOR /F "tokens=* eol=# usebackq delims=" %%i IN ("%CFG_FILE%") DO (
@@ -71,7 +71,7 @@ if "%JAVAOK%"=="false" (
   echo.
   echo Please go to
   echo   http://www.oracle.com/technetwork/java/javase/downloads/index.html
-  echo and download a valid Java JDK and install before running header-extractor.
+  echo and download a valid Java JDK and install before running header-replacer.
   echo.
   echo If you think this message is in error, please check
   echo your environment variables to see if "java.exe" and "javac.exe" are
@@ -88,11 +88,11 @@ if "%_JAVA_OPTS%"=="" set _JAVA_OPTS=%CFG_OPTS%
 
 :run
  
-set "APP_CLASSPATH=%APP_LIB_DIR%\im.chic.devtools.header-extractor-0.1-SNAPSHOT.jar;%APP_LIB_DIR%\org.scala-lang.scala-library-2.10.3.jar;%APP_LIB_DIR%\com.github.scopt.scopt_2.10-3.1.0.jar;%APP_LIB_DIR%\com.google.guava.guava-15.0.jar;%APP_LIB_DIR%\im.chic.devtools.header-extractor-0.1-SNAPSHOT.jar;%APP_LIB_DIR%\org.scala-lang.scala-library-2.10.3.jar;%APP_LIB_DIR%\com.github.scopt.scopt_2.10-3.1.0.jar;%APP_LIB_DIR%\com.google.guava.guava-15.0.jar"
-set "APP_MAIN_CLASS=im.chic.devtools.HeaderExtractor"
+set "APP_CLASSPATH=%APP_LIB_DIR%\im.chic.devtools.header-replacer-0.1-SNAPSHOT.jar;%APP_LIB_DIR%\org.scala-lang.scala-library-2.10.3.jar;%APP_LIB_DIR%\com.github.scopt.scopt_2.10-3.1.0.jar;%APP_LIB_DIR%\com.google.guava.guava-16.0.1.jar"
+set "APP_MAIN_CLASS=im.chic.devtools.HeaderReplacer"
 
 rem TODO - figure out how to pass arguments....
-"%_JAVACMD%" %_JAVA_OPTS% %HEADER_EXTRACTOR_OPTS% -cp "%APP_CLASSPATH%" %APP_MAIN_CLASS% %CMDS%
+"%_JAVACMD%" %_JAVA_OPTS% %HEADER_REPLACER_OPTS% -cp "%APP_CLASSPATH%" %APP_MAIN_CLASS% %CMDS%
 if ERRORLEVEL 1 goto error
 goto end
 
