@@ -2,7 +2,7 @@ package im.chic.devtools
 
 import java.io.{OutputStreamWriter, FileOutputStream, File}
 import com.google.common.base.Charsets
-import scala.io.Source
+import scala.io.{Codec, Source}
 import collection.immutable.Seq
 import collection.immutable.List
 
@@ -31,7 +31,7 @@ object HeaderReplacer extends App {
     }
   }
 
-  def translate(dir: File, header:String, replacer:String) {
+  def translate(dir: File, header: String, replacer: String) {
     if (dir.exists)
       dir.listFiles.foreach(f => {
         if (f.isDirectory) translate(f, header, replacer)
@@ -40,9 +40,10 @@ object HeaderReplacer extends App {
     else println("dir " + dir + " does not exist.")
   }
 
-  def processFile(file: File, header:String, replacer:String) {
+  def processFile(file: File, header: String, replacer: String) {
     if (isCppSource(file.getName)) {
-      val lines = Source.fromFile(file).getLines.toList
+      println("processing file: " + file.getAbsolutePath)
+      val lines = Source.fromFile(file, Charsets.UTF_8.toString).getLines.toList
       val writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8)
       lines.map(processLine(_, header, replacer)).foreach(line => writer.write(line + "\n"))
       writer.flush
@@ -50,7 +51,7 @@ object HeaderReplacer extends App {
     }
   }
 
-  def processLine(line:String, header:String, replacer:String) = {
+  def processLine(line: String, header: String, replacer: String) = {
     val pattern = """ #include(\s*)[<"]%s[>"] """.format(header).trim
     line.replaceAll(pattern, """#include "%s" """.trim.format(replacer))
   }
