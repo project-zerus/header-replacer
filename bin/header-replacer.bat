@@ -88,7 +88,7 @@ if "%_JAVA_OPTS%"=="" set _JAVA_OPTS=%CFG_OPTS%
 
 :run
  
-set "APP_CLASSPATH=%APP_LIB_DIR%\im.chic.devtools.header-replacer-0.1-SNAPSHOT.jar;%APP_LIB_DIR%\org.scala-lang.scala-library-2.10.3.jar;%APP_LIB_DIR%\com.github.scopt.scopt_2.10-3.1.0.jar;%APP_LIB_DIR%\com.google.guava.guava-16.0.1.jar"
+set "APP_CLASSPATH=%APP_LIB_DIR%\im.chic.devtools.header-replacer-0.1-SNAPSHOT.jar;%APP_LIB_DIR%\org.scala-lang.scala-library-2.10.3.jar;%APP_LIB_DIR%\com.github.scopt.scopt_2.10-3.2.0.jar;%APP_LIB_DIR%\com.google.guava.guava-16.0.1.jar"
 set "APP_MAIN_CLASS=im.chic.devtools.HeaderReplacer"
 
 rem TODO - figure out how to pass arguments....
